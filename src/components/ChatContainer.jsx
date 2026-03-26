@@ -15,7 +15,7 @@ const ChatContainer = () => {
     subscribeToMessage,
     unsubscribeToMessage,
   } = useMessageStore();
-  const { user: authUser } = useAuthStore();
+  const { user: authUser, socket } = useAuthStore();
 
   //for auto scroll
   const messageEndRef = React.useRef(null);
@@ -28,13 +28,13 @@ const ChatContainer = () => {
     scrollToBottom();
   }, [messages]);
   //call get message when selected user changed
+
   useEffect(() => {
-    if (selectedUser) {
-      getMessage(selectedUser._id);
-      subscribeToMessage();
-      return () => unsubscribeToMessage();
-    }
-  }, [selectedUser, getMessage, subscribeToMessage, unsubscribeToMessage]);
+    if (!selectedUser || !socket) return;
+    getMessage(selectedUser._id);
+    subscribeToMessage();
+    return () => unsubscribeToMessage();
+  }, [selectedUser, socket]);
   if (isMessageLoading) {
     return (
       <div className="flex-1 flex flex-col overflow-auto">

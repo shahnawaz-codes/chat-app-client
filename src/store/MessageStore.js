@@ -40,7 +40,7 @@ export const useMessageStore = create((set, get) => ({
       //post request to send message
       const res = await axiosInstance.post(
         `/message/${selectedUser._id}`,
-        messageData
+        messageData,
       );
       console.log(res.data);
       //update the message state
@@ -56,15 +56,29 @@ export const useMessageStore = create((set, get) => ({
   subscribeToMessage: () => {
     const { selectedUser } = get();
     if (!selectedUser) return;
+
     const socket = useAuthStore.getState().socket;
-    socket.on("newMessage", (data) => {
+    if (!socket) return;
+
+    const handler = (data) => {
       if (data.senderId !== selectedUser._id) return;
+
       const { messages } = get();
       set({ messages: [...messages, data] });
-    });
+    };
+
+    socket.on("newMessage", handler);
+
+    // store handler
+    set({ messageHandler: handler });
   },
+
   unsubscribeToMessage: () => {
     const socket = useAuthStore.getState().socket;
-    socket.off("newMessage");
+    const { messageHandler } = get();
+
+    if (!socket || !messageHandler) return;
+
+    socket.off("newMessage", messageHandler);
   },
 }));
