@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { useMessageStore } from "../store/MessageStore";
 import ChatHeader from "./ChatHeader";
-import MessageInput from "./messageInput";
-import MessageSkeleton from "./Skeletons/messageSkeleton";
+import MessageInput from "./MessageInput";
 import useAuthStore from "../store/authStore";
 import { formatMessageTime } from "../lib/utils";
-
+import MessageSkeleton from "./Skeletons/messageSkeleton";
 const ChatContainer = () => {
   const {
     isMessageLoading,
