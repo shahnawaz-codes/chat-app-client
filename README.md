@@ -8,7 +8,7 @@ A full-stack real-time chat application built with React, Node.js, Socket.IO, an
 
 ## 🚀 Live Demo
 
-🌐 [https://chat-app-client-ten-liard.vercel.app](https://chat-app-client-ten-liard.vercel.app)
+🌐 [https://chatty-talk.vercel.app/](https://chatty-talk.vercel.app/)
 
 ---
 
